@@ -138,21 +138,28 @@ class UserController extends Controller
     {
         try {
             $user = JWTAuth::user();
-            $user->name = $request->name ?? $user->name;
-            $user->birth = $request->birth ?? $user->birth;
-            $user->email = $request->email ?? $user->email;
-            $user->password = $request->password ?? $user->password;
-            $user->work_schedule_id = $request->work_schedule ?? $user->work_schedule_id;
-            $user->department_id = $request->department ?? $user->department_id;
 
-            if ($request->roles) 
+            if ($request->name)
+                $user->name = $request->name;
+            if ($request->birth)
+                $user->birth = $request->birth;
+            if ($request->email)
+                $user->email = $request->email;
+            if ($request->password)
+                $user->password = $request->password;
+            if ($request->work_schedule)
+                $user->work_schedule_id = $request->work_schedule;
+            if ($request->department)
+                $user->department_id = $request->department;
+            if ($request->roles)
                 $user->roles()->sync($request->roles);
 
             if ($request->file('image')) {
-                if ($user->image) {
+                if (isset($user->image->name ) && Storage::exists($user->getImagePath().$user->image->name))
                     Storage::delete($user->getImagePath().$user->image->name);
+
+                if ($user->image)
                     $user->image->delete();
-                }
 
                 $image = new Image();
                 $image->extension = $request->file('image')->extension();

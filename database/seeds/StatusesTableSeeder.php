@@ -16,7 +16,7 @@ class StatusesTableSeeder extends Seeder
             ['Disponível', 'bg-green'],
             ['Ocupado', 'bg-red'],
             ['Ausente', 'bg-yellow'],
-            ['Invisível', 'bg-grey']
+            ['Deslogado', 'bg-grey']
         ];
 
         foreach($values as $value) {

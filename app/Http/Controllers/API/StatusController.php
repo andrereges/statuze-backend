@@ -12,4 +12,23 @@ class StatusController extends Controller
     {
         return new StatusCollection(Status::all());
     }
+
+    public function statusWithUsers()
+    {
+        try {
+            return response()->json([
+                'type' => 'success',
+                'data' => Status::statusWithUsers(),
+                'message' => 'All right'
+            ], 200)->header('Content-Type', 'application/json');
+        } catch (\Exception $exception) {
+            return response()
+                ->json([
+                    'type' => 'error',
+                    'data' => null,
+                    'message' => $exception->getMessage()
+                ], 404)
+                ->header('Content-Type', 'application/json');
+        }
+    }    
 }

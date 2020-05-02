@@ -22,4 +22,9 @@ class StatusReason extends Model
     {
         return $this->belongsTo(Reason::class);
     }
+
+    public function userStatus()
+    {
+        return $this->hasMany(UserStatus::class, 'status_reason_id');
+    }
 }

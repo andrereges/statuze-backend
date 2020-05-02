@@ -16,7 +16,7 @@ class CreateReasonsTable extends Migration
         Schema::create('reasons', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50)->unique();
-            $table->timestamp("expected_return")->nullable();
+            $table->dateTime("expected_return")->nullable();
         });
     }
 

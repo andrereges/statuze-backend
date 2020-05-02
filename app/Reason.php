@@ -9,7 +9,7 @@ class Reason extends Model
     protected $table = 'reasons';
     protected $fillable = ['name, expected_return'];
     public $timestamps = false;
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'pivot'];
 
     public function statuses()
     {

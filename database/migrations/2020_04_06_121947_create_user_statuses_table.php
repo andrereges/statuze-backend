@@ -19,12 +19,12 @@ class CreateUserStatusesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_reason_id');
 
-            $table->timestamp('from', 0)->default(now());
-            $table->timestamp('to', 0)->nullable();
+            $table->dateTime('from', 0)->default(now());
+            $table->dateTime('to', 0)->nullable();
             $table->string('note', 100)->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('status_reason_id')->references('id')->on('status_reasons');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('status_reason_id')->references('id')->on('status_reasons')->onDelete('cascade');
         });
     }
 

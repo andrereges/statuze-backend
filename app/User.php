@@ -15,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     const PATH_IMAGE = 'public/user/profile_pictures/';
+    const ADMINISTRADOR_ID = 1;
 
     protected $table = 'users';
 
@@ -132,10 +133,11 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->userStatuses()->delete();
 
-        if ($this->image) {
+        if (isset($this->image) && Storage::exists($this->getImagePath().$this->image->name)) 
             Storage::delete($this->getImagePath().$this->image->name);
-            $this->image()->delete();
-        }
+        
+        if ($this->image)
+        $this->image()->delete();
         
         return parent::delete();
     }

@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'workSchedule' => $this->workSchedule,
             'roles' => $this->roles,
             'image' => $this->imageUrl(),
-            'user_status' => $this->userStatuses->last() ? $this->userStatuses->last()->statusReason : []
+            'user_status' => $this->userStatuses->last()->statusReason
         ];
     }
 }
