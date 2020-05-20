@@ -13,16 +13,17 @@ class StatusesTableSeeder extends Seeder
     public function run()
     {
         $values = [
-            ['Disponível', 'bg-green'],
-            ['Ocupado', 'bg-red'],
-            ['Ausente', 'bg-yellow'],
-            ['Deslogado', 'bg-grey']
+            [1, 'Disponível', 'bg-green'],
+            [2, 'Ocupado', 'bg-red'],
+            [3, 'Ausente', 'bg-yellow'],
+            [4, 'Deslogado', 'bg-grey']
         ];
 
         foreach($values as $value) {
             DB::table('statuses')->insert([
-                'name' => $value[0],
-                'color' => $value[1]
+                'id' => $value[0],
+                'name' => $value[1],
+                'color' => $value[2]
             ]); 
         }
     }

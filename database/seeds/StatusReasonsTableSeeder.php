@@ -18,6 +18,7 @@ class StatusReasonsTableSeeder extends Seeder
             [2, 2],
             [2, 5],
             [2, 8],
+            [2, 10],
             [3, 1],
             [3, 3],
             [3, 8],

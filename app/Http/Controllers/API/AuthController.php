@@ -89,10 +89,15 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $expires_in = date('Y-m-d H:i:s', 
+            strtotime(now()) + auth('api')->factory()->getTTL() * 60
+        );
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 1440
+            'expires_in' => $expires_in,
+            'logged_user' => new UserResource(auth('api')->user())
         ]);
     }
 }

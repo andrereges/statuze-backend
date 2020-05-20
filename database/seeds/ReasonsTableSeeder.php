@@ -13,43 +13,23 @@ class ReasonsTableSeeder extends Seeder
     public function run()
     {
         $values = [
-            [
-                'Almoço', 
-                new \DateTime('2020-01-01 01:00:00')
-            ],
-            [
-                'Daily', 
-                new \DateTime('2020-01-01 00:15:00')
-            ],
-            [
-                'Banheiro', 
-                new \DateTime('2020-01-01 00:10:00')
-            ],
-            [
-                'Caf-é', 
-                new \DateTime('2020-01-01 00:10:00')
-            ],
-            [
-                'Reunião'
-            ],
-            [
-                'Início de Expediente'
-            ],
-            [
-                'Final de Expediente'
-            ],
-            [
-                'Outros'
-            ],
-            [
-                'Fale Comigo'
-            ]
+            [1, 'Almoço', new \DateTime('2020-01-01 01:00:00')],
+            [2, 'Daily', new \DateTime('2020-01-01 00:15:00')],
+            [3, 'Banheiro', new \DateTime('2020-01-01 00:10:00')],
+            [4, 'Café', new \DateTime('2020-01-01 00:10:00')],
+            [5, 'Reunião'],
+            [6, 'Início de Expediente'],
+            [7, 'Final de Expediente'],
+            [8, 'Outros'],
+            [9, 'Fale Comigo'],
+            [10, 'Preciso de Concentração']
         ];
 
         foreach($values as $value) {
             DB::table('reasons')->insert([
-                'name' => $value[0],
-                'expected_return' => $value[1] ?? null,
+                'id' => $value[0],
+                'name' => $value[1],
+                'expected_return' => $value[2] ?? null,
             ]); 
         }
     }

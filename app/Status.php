@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Status extends Model
 {
@@ -16,10 +17,11 @@ class Status extends Model
         return $this->belongsToMany(Reason::class, 'status_reasons', 'status_id');
     }
 
-    public static function statusWithUsers()
+    public static function statusWithUsers($userLoggedFirstList = false)
     {
         $statuses = Status::all();
-        $users = User::all();
+        $users = User::orderBy('name', 'ASC')->get();
+        $userLoggedId = JWTAuth::user()->id;
 
         $statusWithUsers = [];
         foreach ($statuses as $status) {
@@ -38,8 +40,9 @@ class Status extends Model
 
             foreach ($statusWithUsers as $key => $statusWithUser) {
                 if (($userStatusId == $statusWithUser['id']) && $user->id != User::ADMINISTRADOR_ID) {
-                    $statusWithUsers[$key]['users'][] = [
+                    $userStatus = [
                         'id' => $user->id,
+                        'nickName' => $user->getNameInParts(2),
                         'name' => $user->name,
                         'email' => $user->email,
                         'birth' => $user->birth,
@@ -55,6 +58,11 @@ class Status extends Model
                             'reason' => $user->userStatuses->last()->statusReason->reason
                         ]
                     ];
+
+                    if ($user->id == $userLoggedId && $userLoggedFirstList)
+                        array_unshift($statusWithUsers[$key]['users'], $userStatus);
+                    else
+                        array_push($statusWithUsers[$key]['users'], $userStatus);
                 }
             }
         }

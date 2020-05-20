@@ -100,8 +100,26 @@ class User extends Authenticatable implements JWTSubject
     public function getBirthAttribute()
     {
         if ($this->attributes['birth']) {
-            return date('d/m/Y', strtotime($this->attributes['birth']));
+            return date('Y-m-d', strtotime($this->attributes['birth']));
         }
+    }
+
+    public function getNameInParts(int $numberOfParts = 0)
+    {
+        if ($numberOfParts <= 0)
+            return $this->name;
+
+        $partsName = explode(' ', $this->name);
+        
+        $nameInParts = [];
+        foreach($partsName as $key => $part) {
+            $nameInParts[] = $part;
+
+            if (($numberOfParts - 1) == $key)
+                return implode(' ', $nameInParts);                
+        }
+
+        return implode(' ', $nameInParts);
     }
 
     public function getImagePath()

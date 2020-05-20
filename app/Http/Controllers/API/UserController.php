@@ -178,6 +178,48 @@ class UserController extends Controller
 
             return response()->json([
                 'type' => 'success',
+                'data' => new UserResource($user),
+                'message' => 'Usuário atualizado com sucesso'
+            ], 200)->header('Content-Type', 'application/json');
+        } catch (Exception $exception) {
+            return response()
+                ->json([
+                    'type' => 'error',
+                    'data' => null,
+                    'message' => $exception->getMessage()
+                ], 404)->header('Content-Type', 'application/json');
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        try {
+            $user = JWTAuth::user();
+
+            if ($request->file('image')) {
+                if (isset($user->image->name ) && Storage::exists($user->getImagePath().$user->image->name))
+                    Storage::delete($user->getImagePath().$user->image->name);
+
+                if ($user->image)
+                    $user->image->delete();
+
+                $image = new Image();
+                $image->extension = $request->file('image')->extension();
+                $image->name = Str::random(20).'.'.$image->extension;
+                $image->user_id = $user->id;
+                $image->saveOrFail();
+
+                Storage::putFileAs(
+                    $user->getImagePath(), 
+                    $request->file('image'), 
+                    $image->name
+                );
+            }
+
+            $user->update();
+
+            return response()->json([
+                'type' => 'success',
                 'data' => $user,
                 'message' => 'All right'
             ], 200)->header('Content-Type', 'application/json');
