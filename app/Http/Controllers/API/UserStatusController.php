@@ -33,7 +33,7 @@ class UserStatusController extends Controller
      */
     public function store(UserStatusResquest $request)
     {
-        try {           
+        try {
             $oldUserStatus = UserStatus::where(['user_id' => JWTAuth::user()->id])
                 ->latest('id')->firstOrFail();
 
@@ -45,7 +45,7 @@ class UserStatusController extends Controller
             )->firstOrFail();
 
             $oldUserStatus->to = date('Y-m-d H:i:s');
-            
+
             $newUserStatus = new UserStatus();
             $newUserStatus->user_id = $oldUserStatus->user->id;
             $newUserStatus->status_reason_id = $statusReason->id;
@@ -55,7 +55,7 @@ class UserStatusController extends Controller
             $newUserStatus->note = $request->note;
 
             $oldUserStatus->update();
-            $newUserStatus->saveOrFail();   
+            $newUserStatus->saveOrFail();
 
             return response()->json([
                 'type' => 'success',
@@ -112,6 +112,14 @@ class UserStatusController extends Controller
             $userStatus = UserStatus::where(['user_id' => JWTAuth::user()->id])
                 ->latest('id')->firstOrFail();
 
+            $statusReason = StatusReason::where(
+                [
+                    'status_id' => $request->status,
+                    'reason_id' => $request->reason
+                ]
+            )->firstOrFail();
+
+            $userStatus->status_reason_id = $statusReason->id;
             $userStatus->to = $request->to;
             $userStatus->note = $request->note;
             $userStatus->update();

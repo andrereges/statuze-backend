@@ -16,6 +16,7 @@ class User extends Authenticatable implements JWTSubject
 
     const PATH_IMAGE = 'public/user/profile_pictures/';
     const ADMINISTRADOR_ID = 1;
+    const MIN_SIZE_LAST_NAME = 3;
 
     protected $table = 'users';
 
@@ -25,7 +26,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'birth', 'email', 'password', 'people_id', 'work_schedule_id', 'department_id', 'image_id'
+        'name', 'email', 'active', 'gender', 'birth',
+        'password', 'people_id', 'work_schedule_id',
+        'department_id', 'image_id'
     ];
 
     /**
@@ -34,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'email_verified_at', 'created_at', 
+        'password', 'email_verified_at', 'created_at',
         'updated_at', 'department_id', 'work_schedule_id',
         'pivot',
     ];
@@ -110,13 +113,24 @@ class User extends Authenticatable implements JWTSubject
             return $this->name;
 
         $partsName = explode(' ', $this->name);
-        
+
         $nameInParts = [];
         foreach($partsName as $key => $part) {
-            $nameInParts[] = $part;
+            $sizeLastValueArray = strlen(end($nameInParts));
 
-            if (($numberOfParts - 1) == $key)
-                return implode(' ', $nameInParts);                
+            if ($sizeLastValueArray <= self::MIN_SIZE_LAST_NAME) {
+                $nameInParts[] = end($nameInParts) . ' ' . $part;
+                unset($nameInParts[sizeof($nameInParts) - 2]);
+            } else {
+                $nameInParts[] = $part;
+            }
+
+            if (
+                ($numberOfParts - 1) == $key  &&
+                strlen(end($nameInParts)) > self::MIN_SIZE_LAST_NAME
+            ) {
+                return implode(' ', $nameInParts);
+            }
         }
 
         return implode(' ', $nameInParts);
@@ -151,12 +165,12 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->userStatuses()->delete();
 
-        if (isset($this->image) && Storage::exists($this->getImagePath().$this->image->name)) 
+        if (isset($this->image) && Storage::exists($this->getImagePath().$this->image->name))
             Storage::delete($this->getImagePath().$this->image->name);
-        
+
         if ($this->image)
         $this->image()->delete();
-        
+
         return parent::delete();
     }
 
@@ -166,7 +180,7 @@ class User extends Authenticatable implements JWTSubject
             $user_ids = isset($filters['users']) ? array_map('intval', $filters['users']) : [];
             $department_ids = isset($filters['departments']) ? array_map('intval', $filters['departments']) : [];
             $work_schedule_ids = isset($filters['workSchedules']) ? array_map('intval', $filters['workSchedules']) : [];
-            
+
             if ($user_ids)
                 $query->whereIn('id', $user_ids);
 

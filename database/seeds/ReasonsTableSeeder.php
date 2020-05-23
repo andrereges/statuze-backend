@@ -14,7 +14,7 @@ class ReasonsTableSeeder extends Seeder
     {
         $values = [
             [1, 'Almoço', new \DateTime('2020-01-01 01:00:00')],
-            [2, 'Daily', new \DateTime('2020-01-01 00:15:00')],
+            [2, 'Daily', new \DateTime('2020-01-01 00:30:00')],
             [3, 'Banheiro', new \DateTime('2020-01-01 00:10:00')],
             [4, 'Café', new \DateTime('2020-01-01 00:10:00')],
             [5, 'Reunião'],
@@ -30,7 +30,7 @@ class ReasonsTableSeeder extends Seeder
                 'id' => $value[0],
                 'name' => $value[1],
                 'expected_return' => $value[2] ?? null,
-            ]); 
+            ]);
         }
     }
 }

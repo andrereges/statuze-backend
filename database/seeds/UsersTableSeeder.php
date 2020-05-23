@@ -15,14 +15,16 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Administrador',
-            'birth' => date("2020-01-01 00:00:00"),
             'email' => 'admin@statuze.com.br',
+            'active' => true,
+            'gender' => 'Masculino',
+            'birth' => date("2020-01-01 00:00:00"),
             'password' => Hash::make('admin'),
             'email_verified_at' => date("Y-m-d H:i:s"),
-            'work_schedule_id' => 3, 
+            'work_schedule_id' => 3,
             'department_id' => 3,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
-        ]); 
+        ]);
     }
 }

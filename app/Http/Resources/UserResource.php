@@ -19,6 +19,8 @@ class UserResource extends JsonResource
             'nickName' => $this->getNameInParts(1),
             'name' => $this->name,
             'email' => $this->email,
+            'active' => $this->active,
+            'gender' => $this->gender,
             'birth' => $this->birth,
             'department' => $this->department,
             'workSchedule' => $this->workSchedule,

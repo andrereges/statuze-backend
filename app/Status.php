@@ -39,12 +39,18 @@ class Status extends Model
             $userStatusId = $user->userStatuses->last()->statusReason->status->id;
 
             foreach ($statusWithUsers as $key => $statusWithUser) {
-                if (($userStatusId == $statusWithUser['id']) && $user->id != User::ADMINISTRADOR_ID) {
+                if (
+                    $userStatusId == $statusWithUser['id'] &&
+                    $user->id != User::ADMINISTRADOR_ID &&
+                    $user->active == true
+                ) {
                     $userStatus = [
                         'id' => $user->id,
                         'nickName' => $user->getNameInParts(2),
                         'name' => $user->name,
                         'email' => $user->email,
+                        'active' => $user->active,
+                        'gender' => $user->gender,
                         'birth' => $user->birth,
                         'department' => $user->department,
                         'workSchedule' => $user->workSchedule,
@@ -55,6 +61,7 @@ class Status extends Model
                             'from' => $user->userStatuses->last()->from,
                             'to' => $user->userStatuses->last()->to,
                             'note' => $user->userStatuses->last()->note,
+                            'status' => $user->userStatuses->last()->statusReason->status,
                             'reason' => $user->userStatuses->last()->statusReason->reason
                         ]
                     ];

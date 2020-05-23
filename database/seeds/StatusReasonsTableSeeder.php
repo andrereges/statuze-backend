@@ -21,6 +21,7 @@ class StatusReasonsTableSeeder extends Seeder
             [2, 10],
             [3, 1],
             [3, 3],
+            [3, 4],
             [3, 8],
             [4, 7],
             [4, 8]
@@ -30,7 +31,7 @@ class StatusReasonsTableSeeder extends Seeder
             DB::table('status_reasons')->insert([
                 'status_id' => $value[0],
                 'reason_id' => $value[1]
-            ]); 
+            ]);
         }
     }
 }

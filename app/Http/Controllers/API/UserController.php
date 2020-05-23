@@ -57,19 +57,21 @@ class UserController extends Controller
         try {
             $user = new User();
             $user->name = $request->name;
-            $user->birth = date($request->birth);
             $user->email = $request->email;
+            $user->active = $request->active;
+            $user->gender = $request->gender;
+            $user->birth = date($request->birth);
             $user->password = $request->password;
             $user->work_schedule_id = $request->work_schedule;
             $user->department_id = $request->department;
-            
+
             $user->saveOrFail();
 
             $user->userStatusReasons()->sync(StatusReason::INVISIVEL_OUTROS);
 
-            if ($request->roles) 
+            if ($request->roles)
                 $user->roles()->sync($request->roles);
-            else 
+            else
                 $user->roles()->sync(Role::USER);
 
             if ($request->file('image')) {
@@ -80,8 +82,8 @@ class UserController extends Controller
 
                 if($image->saveOrFail()) {
                     Storage::putFileAs(
-                        $user->getImagePath(), 
-                        $request->file('image'), 
+                        $user->getImagePath(),
+                        $request->file('image'),
                         $image->name
                     );
                 }
@@ -141,10 +143,14 @@ class UserController extends Controller
 
             if ($request->name)
                 $user->name = $request->name;
-            if ($request->birth)
-                $user->birth = $request->birth;
             if ($request->email)
                 $user->email = $request->email;
+            if ($request->active)
+                $user->active = $request->active;
+            if ($request->gender)
+                $user->gender = $request->gender;
+            if ($request->birth)
+                $user->birth = $request->birth;
             if ($request->password)
                 $user->password = $request->password;
             if ($request->work_schedule)
@@ -165,63 +171,23 @@ class UserController extends Controller
                 $image->extension = $request->file('image')->extension();
                 $image->name = Str::random(20).'.'.$image->extension;
                 $image->user_id = $user->id;
-                $image->saveOrFail();
 
                 Storage::putFileAs(
-                    $user->getImagePath(), 
-                    $request->file('image'), 
+                    $user->getImagePath(),
+                    $request->file('image'),
                     $image->name
                 );
+
+                $user->image()->save($image);
             }
 
             $user->update();
+            $user = User::findOrFail($user->id);
 
             return response()->json([
                 'type' => 'success',
                 'data' => new UserResource($user),
                 'message' => 'Usuário atualizado com sucesso'
-            ], 200)->header('Content-Type', 'application/json');
-        } catch (Exception $exception) {
-            return response()
-                ->json([
-                    'type' => 'error',
-                    'data' => null,
-                    'message' => $exception->getMessage()
-                ], 404)->header('Content-Type', 'application/json');
-        }
-    }
-
-    public function upload(Request $request)
-    {
-        try {
-            $user = JWTAuth::user();
-
-            if ($request->file('image')) {
-                if (isset($user->image->name ) && Storage::exists($user->getImagePath().$user->image->name))
-                    Storage::delete($user->getImagePath().$user->image->name);
-
-                if ($user->image)
-                    $user->image->delete();
-
-                $image = new Image();
-                $image->extension = $request->file('image')->extension();
-                $image->name = Str::random(20).'.'.$image->extension;
-                $image->user_id = $user->id;
-                $image->saveOrFail();
-
-                Storage::putFileAs(
-                    $user->getImagePath(), 
-                    $request->file('image'), 
-                    $image->name
-                );
-            }
-
-            $user->update();
-
-            return response()->json([
-                'type' => 'success',
-                'data' => $user,
-                'message' => 'All right'
             ], 200)->header('Content-Type', 'application/json');
         } catch (Exception $exception) {
             return response()
@@ -242,7 +208,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = User::findOrFail($id);            
+            $user = User::findOrFail($id);
             $user->delete();
 
             return response()->json([

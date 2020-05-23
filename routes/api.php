@@ -15,7 +15,6 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => ''], function ($router) {
 
     Route::get('user/search', 'API\UserController@search')->name('user.search');
     Route::post('user/update', 'API\UserController@update')->name('user.update');
-    // Route::post('user/upload', 'API\UserStatusController@upload')->name('user.upload');
 
     Route::apiResource('user', 'API\UserController')->names([
         'create' => 'user.create',
