@@ -18,17 +18,16 @@ class DepartmentsTableSeeder extends Seeder
             'Diretoria',
             'Desenvolvimento',
             'Especialista',
-            'Financeiro',
-            'Infraestrutura',
+            'Qualidade',
+            'Infra/Suporte',
             'Marketing',
-            'Projeto',
-            'Qualidade'
+            'Projeto'
         ];
 
         foreach($values as $value) {
             DB::table('departments')->insert([
                 'name' => $value
-            ]); 
+            ]);
         }
     }
 }

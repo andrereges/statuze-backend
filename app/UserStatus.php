@@ -41,14 +41,14 @@ class UserStatus extends Model
     public function setToAttribute($value)
     {
         if (is_null($value) && $this->statusReason->reason->expected_return) {
-            $this->attributes['to'] = 
+            $this->attributes['to'] =
                 $this->setDefaultTime($this->statusReason->reason->expected_return);
             return;
         }
-       
+
         throw_if(
             !is_null($value) && (strtotime('-1 seconds', strtotime(now())) >= strtotime($value)),
-            new Exception('A data prevista para o retorno deve ser maior que a data atual')
+            new Exception('A data prevista para o retorno deve ser maior que a data atual', 400)
         );
 
         $this->attributes['to'] = $value;

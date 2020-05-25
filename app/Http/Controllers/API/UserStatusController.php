@@ -68,7 +68,7 @@ class UserStatusController extends Controller
                     'type' => 'error',
                     'data' => null,
                     'message' => $exception->getMessage(),
-                ], 404)->header('Content-Type', 'application/json');
+                ], 405)->header('Content-Type', 'application/json');
         }
     }
 
