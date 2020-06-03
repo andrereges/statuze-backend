@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Administrador',
             'email' => 'admin@statuze.com.br',
+            'cellphone' => null,
             'active' => true,
             'gender' => 'Masculino',
             'birth' => date("2020-01-01 00:00:00"),

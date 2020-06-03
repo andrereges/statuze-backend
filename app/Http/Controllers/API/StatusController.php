@@ -34,6 +34,7 @@ class StatusController extends Controller
 
     public function statusWithUsers()
     {
+        return Status::statusWithUsers(true);
         try {
             return response()->json([
                 'type' => 'success',
@@ -49,5 +50,5 @@ class StatusController extends Controller
                 ], 404)
                 ->header('Content-Type', 'application/json');
         }
-    }    
+    }
 }

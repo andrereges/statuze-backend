@@ -20,8 +20,10 @@ class Status extends Model
     public static function statusWithUsers($userLoggedFirstList = false)
     {
         $statuses = Status::all();
-        $users = User::orderBy('name', 'ASC')->get();
-        $userLoggedId = JWTAuth::user()->id;
+        $users = User::where('id', '<>', User::ADMINISTRADOR_ID)
+            ->where('active', true)
+            ->orderBy('name', 'ASC')
+            ->get();
 
         $statusWithUsers = [];
         foreach ($statuses as $status) {
@@ -39,16 +41,13 @@ class Status extends Model
             $userStatusId = $user->userStatuses->last()->statusReason->status->id;
 
             foreach ($statusWithUsers as $key => $statusWithUser) {
-                if (
-                    $userStatusId == $statusWithUser['id'] &&
-                    $user->id != User::ADMINISTRADOR_ID &&
-                    $user->active == true
-                ) {
+                if ($userStatusId == $statusWithUser['id']) {
                     $userStatus = [
                         'id' => $user->id,
                         'nickName' => $user->getNameInParts(2),
                         'name' => $user->name,
                         'email' => $user->email,
+                        'cellphone' => $user->cellphone,
                         'active' => $user->active,
                         'gender' => $user->gender,
                         'birth' => $user->birth,
@@ -66,7 +65,7 @@ class Status extends Model
                         ]
                     ];
 
-                    if ($user->id == $userLoggedId && $userLoggedFirstList)
+                    if ($user->id == JWTAuth::user()->id && $userLoggedFirstList)
                         array_unshift($statusWithUsers[$key]['users'], $userStatus);
                     else
                         array_push($statusWithUsers[$key]['users'], $userStatus);

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTime;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,7 +27,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'active', 'gender', 'birth',
+        'name', 'email', 'cellphone','active', 'gender', 'birth',
         'password', 'people_id', 'work_schedule_id',
         'department_id', 'image_id'
     ];
@@ -190,5 +191,10 @@ class User extends Authenticatable implements JWTSubject
             if ($work_schedule_ids)
                 $query->whereIn('work_schedule_id', $work_schedule_ids);
         })->orderBy('name', 'ASC');
+    }
+
+    public static function birthdays(int $month)
+    {
+        return User::whereMonth('birth', '=', $month)->orderBy('name', 'ASC')->get();
     }
 }

@@ -58,6 +58,7 @@ class UserController extends Controller
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->cellphone = $request->cellphone;
             $user->active = $request->active;
             $user->gender = $request->gender;
             $user->birth = date($request->birth);
@@ -145,6 +146,8 @@ class UserController extends Controller
                 $user->name = $request->name;
             if ($request->email)
                 $user->email = $request->email;
+            if ($request->cellphone)
+                $user->cellphone = $request->cellphone;
             if ($request->active)
                 $user->active = $request->active;
             if ($request->gender)
@@ -223,6 +226,21 @@ class UserController extends Controller
                     'data' => null,
                     'message' => $exception->getMessage()
                 ], 404)->header('Content-Type', 'application/json');
+        }
+    }
+
+    public function birthdays(int $month)
+    {
+        try {
+            return new UserCollection(User::birthdays($month));
+        } catch (Exception $exception) {
+            return response()
+                ->json([
+                    'type' => 'error',
+                    'data' => null,
+                    'message' => $exception->getMessage()
+                ], 404)
+                ->header('Content-Type', 'application/json');
         }
     }
 }

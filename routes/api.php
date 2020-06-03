@@ -15,6 +15,7 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => ''], function ($router) {
 
     Route::get('user/search', 'API\UserController@search')->name('user.search');
     Route::post('user/update', 'API\UserController@update')->name('user.update');
+    Route::get('user/birthdays/{month}', 'API\UserController@birthdays')->name('user.birthdays')->where('id', '[0-9]+');
 
     Route::apiResource('user', 'API\UserController')->names([
         'create' => 'user.create',
