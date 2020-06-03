@@ -34,7 +34,6 @@ class StatusController extends Controller
 
     public function statusWithUsers()
     {
-        return Status::statusWithUsers(true);
         try {
             return response()->json([
                 'type' => 'success',
