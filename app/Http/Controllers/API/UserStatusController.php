@@ -101,6 +101,32 @@ class UserStatusController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $userId
+     * @param  string  $date
+     * @return \Illuminate\Http\Response
+     */
+    public function userStatusByFrom($userId, $date)
+    {
+        try {
+            return response()->json([
+                'type' => 'success',
+                'data' => UserStatus::userStatusByFrom($userId, $date),
+                'message' => 'All right'
+            ], 200)->header('Content-Type', 'application/json');
+        } catch (Exception $exception) {
+            return response()
+                ->json([
+                    'type' => 'error',
+                    'data' => null,
+                    'message' => $exception->getMessage()
+                ], 404)
+                ->header('Content-Type', 'application/json');
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

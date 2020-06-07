@@ -68,4 +68,13 @@ class UserStatus extends Model
 
         return $date;
     }
+
+    public static function userStatusByFrom(int $userId, $date)
+    {
+        return UserStatus::with('statusReason')
+            ->where(['user_id' => $userId])
+            ->whereDate('from', '=', date($date))
+            ->orderBy('from', 'ASC')
+            ->get();
+    }
 }

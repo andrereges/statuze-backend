@@ -33,6 +33,7 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => ''], function ($router) {
     Route::get('status/{id}', 'API\StatusController@show')->name('status.show')->where('id', '[0-9]+');
     Route::get('status/users', 'API\StatusController@statusWithUsers')->name('status.statusWithUsers');
 
+    Route::get('user-status/user/{id}/{date}', 'API\UserStatusController@userStatusByFrom')->name('userStatus.userStatusByFrom');
     Route::post('user-status/update', 'API\UserStatusController@update')->name('userStatus.update');
     Route::apiResource('user-status', 'API\UserStatusController')->names([
         'create' => 'userStatus.create',
