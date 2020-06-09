@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name', 30);
             $table->string('email', 100);
-            $table->bigInteger('cellphone', 11)->nullable();
+            $table->unsignedBigInteger('cellphone')->nullable();
             $table->boolean('active')->default(true);
             $table->enum('gender', ['Masculino', 'Feminino']);
             $table->dateTime('birth');
