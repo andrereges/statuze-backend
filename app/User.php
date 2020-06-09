@@ -92,6 +92,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserStatus::class, 'user_id')
             ->latest('id')
+            ->take(1)
             ->with('statusReason');
     }
 
