@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-// header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-// header('Access-Control-Allow-Headers: Content-Type, Set-Cookie, X-Auth-Token, X-Requested-With, Accept, Origin, Authorization, x-xsrf-token, X-File-Name, Cache-Control');
-
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Set-Cookie, X-Auth-Token, X-Requested-With, Accept, Origin, Authorization, x-xsrf-token, X-File-Name, Cache-Control');
 
 Route::post('auth/login', 'API\AuthController@login');
 

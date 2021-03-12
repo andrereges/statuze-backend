@@ -19,7 +19,7 @@ class ReasonsTableSeeder extends Seeder
             [4, 'Café', new \DateTime('2020-01-01 00:10:00')],
             [5, 'Reunião'],
             [6, 'Início de Expediente'],
-            [7, 'Final de Expediente'],
+            [7, 'Sair Fora'],
             [8, 'Outros'],
             [9, 'Fale Comigo'],
             [10, 'Preciso de Concentração']

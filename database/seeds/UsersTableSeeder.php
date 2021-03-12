@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             'active' => true,
             'gender' => 'Masculino',
             'birth' => date("2020-01-01 00:00:00"),
-            'password' => Hash::make('5t4tuz3@statuze.com.br'),
+            'password' => Hash::make('change123'),
             'email_verified_at' => date("Y-m-d H:i:s"),
             'work_schedule_id' => 3,
             'department_id' => 3,

@@ -13,7 +13,6 @@ class StatusReasonsTableSeeder extends Seeder
     public function run()
     {
         $values = [
-            [1, 6],
             [1, 9],
             [2, 2],
             [2, 5],
